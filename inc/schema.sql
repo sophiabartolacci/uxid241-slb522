@@ -112,3 +112,48 @@ CREATE TABLE data_notes (
   resolution TEXT,
   FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
 );
+
+
+-- seed data
+INSERT INTO recipes (
+  slug,
+  title,
+  subtitle,
+  category,
+  servings,
+  description,
+  ingredient_count,
+  step_count,
+  main_image,
+  ingredients_image,
+  image_folder,
+  source_pdf
+) VALUES
+(
+  'ancho-orange-chicken',
+  'Ancho-Orange Chicken',
+  'with Kale Rice & Roasted Carrots',
+  'Chicken',
+  4,
+  'We''re amping up chicken breasts with a glaze of smoky ancho chile paste and fresh orange juice in this recipe. On the side, roasted carrots and lightly creamy, golden raisin-studded rice perfectly accent the sweetness of the glaze.',
+  11,
+  6,
+  'images/ancho-orange-chicken/dish.jpg',
+  'images/ancho-orange-chicken/ingredients.png',
+  'images/ancho-orange-chicken',
+  'Recipe_Ancho-Orange_Chicken_with_Kale_Rice_Roasted_Carrots.pdf'
+),
+(
+  'beef-medallions-mushroom-sauce',
+  'Beef Medallions & Mushroom Sauce',
+  'with Mashed Potatoes',
+  'Beef',
+  2,
+  'In this easy recipe, inspired by steak Diane (an American restaurant classic), we''re searing beef medallions, then using the fond in the pan to make a rich, bright mushroom sauce for spooning on top. Garlic mashed potatoes and sautéed kale make for delicious, simple sides.',
+  9,
+  6,
+  'images/beef-medallions-mushroom-sauce/dish.jpg',
+  'images/beef-medallions-mushroom-sauce/ingredients.png',
+  'images/beef-medallions-mushroom-sauce',
+  'Recipe_Beef_Medallions_Mushroom_Sauce_with_Mashed_Potatoes.pdf'
+);
