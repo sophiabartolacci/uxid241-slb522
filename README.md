@@ -1,5 +1,5 @@
 ## Project Description
-This project is a server-side web app for an online cookbook. It allows users to browse and search for recipes, view recipe details, and manage their own recipe collection. 
+This project is a server-side web app for an online cookbook. By the final version, users will be able to browse and search for recipes, view recipe details including ingredients and instructions, and manage their own recipe collection. The project uses PHP and MySQL to store and retrieve recipe data.
 
 ## Local Setup
 ### Prerequisites
@@ -8,7 +8,6 @@ Before running the project locally, you will need:
 1. A local PHP and MySQL development environment:
    1. macOS: MAMP
    2. Windows: XAMPP
-   3. 
 2. A web browser
 3. phpMyAdmin, which is included with MAMP and XAMPP
 
