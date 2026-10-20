@@ -14,7 +14,12 @@ $query = get_value('q');
 $results = [];
 $error = '';
 
-$db_result = mysqli_query($conn, 'SELECT * FROM recipes');
+$db_result = mysqli_query(
+    $conn,
+    'SELECT recipes.*, categories.name AS category
+     FROM recipes
+     LEFT JOIN categories ON recipes.category_id = categories.id'
+);
 $recipes = mysqli_fetch_all($db_result, MYSQLI_ASSOC);
 
 if (isset($_GET['q'])) {

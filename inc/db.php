@@ -11,7 +11,7 @@ try {
         $config['db_user'], 
         $config['db_pass'], 
         $config['db_name'], 
-        $config['db_port']
+        (int) $config['db_port']
     );
     mysqli_set_charset($conn, $config['db_charset']);
 
@@ -19,5 +19,7 @@ try {
     http_response_code(500);
     exit('Connection failed: ' . $e->getMessage());
 }
+
+return $conn;
 
 ?>
