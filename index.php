@@ -78,7 +78,11 @@ if ($query !== '' || $category_id !== '') {
                 <tr>
                     <td><?= e((string) $recipe['id']); ?></td>
                     <td><?= e($recipe['slug']); ?></td>
-                    <td><?= e($recipe['name']); ?></td>
+                    <td>
+                        <a href="recipe.php?id=<?= e((string) $recipe['id']); ?>">
+                            <?= e($recipe['name']); ?>
+                        </a>
+                    </td>
                     <td><?= e($recipe['subtitle'] ?? ''); ?></td>
                     <td><?= e($recipe['category'] ?? ''); ?></td>
                     <td><?= e((string) ($recipe['servings'] ?? '')); ?></td>

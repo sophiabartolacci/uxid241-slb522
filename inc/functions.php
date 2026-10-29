@@ -21,11 +21,28 @@ function get_all_recipes(mysqli $conn): array {
     return mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
 }
 
-function get_recipe(mysqli $conn, int $id): array {
-    $sql = 'SELECT id, name
+function get_recipe(mysqli $conn, int $id): ?array {
+    $sql = 'SELECT recipes.*, categories.name AS category
             FROM recipes 
-            WHERE id = ?;';
+            LEFT JOIN categories ON recipes.category_id = categories.id
+            WHERE recipes.id = ?;';
     return mysqli_fetch_assoc(mysqli_execute_query($conn, $sql, [$id]));
+}
+
+function get_ingredients(mysqli $conn, int $id): array {
+  $sql = 'SELECT *
+          FROM ingredients
+          WHERE recipe_id = ?
+          ORDER BY sort_order ASC;';
+  return mysqli_fetch_all(mysqli_execute_query($conn, $sql, [$id]), MYSQLI_ASSOC);
+}
+
+function get_steps(mysqli $conn, int $id): array {
+  $sql = 'SELECT *
+          FROM steps
+          WHERE recipe_id = ?
+          ORDER BY step_number ASC;';
+  return mysqli_fetch_all(mysqli_execute_query($conn, $sql, [$id]), MYSQLI_ASSOC);
 }
 
 function search_recipes(mysqli $conn, string $query, string $category_id): array {
