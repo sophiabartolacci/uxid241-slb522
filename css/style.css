@@ -1,0 +1,30 @@
+.error {
+    color: red;
+    }
+.table-container {
+    overflow-x: auto;   
+}
+
+table {
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+    vertical-align: top;
+}
+
+th {
+    background-color: #eee;
+}
+
+td {
+    min-width: 100px;
+}
+
+td:nth-child(7) {
+    min-width: 350px;
+}

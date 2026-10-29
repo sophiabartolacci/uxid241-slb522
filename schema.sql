@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Oct 20, 2026 at 07:57 PM
+-- Generation Time: Oct 27, 2026 at 09:23 PM
 -- Server version: 8.0.44
 -- PHP Version: 8.3.30
 
@@ -30,6 +30,7 @@ USE `cookbook`;
 -- Table structure for table `categories`
 --
 
+DROP TABLE IF EXISTS `categories`;
 CREATE TABLE `categories` (
   `id` int NOT NULL,
   `name` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL
@@ -51,6 +52,7 @@ INSERT INTO `categories` (`id`, `name`) VALUES
 -- Table structure for table `data_notes`
 --
 
+DROP TABLE IF EXISTS `data_notes`;
 CREATE TABLE `data_notes` (
   `id` int NOT NULL,
   `recipe_id` int NOT NULL,
@@ -152,6 +154,7 @@ INSERT INTO `data_notes` (`id`, `recipe_id`, `area`, `missing_data`, `status`, `
 -- Table structure for table `extra_images`
 --
 
+DROP TABLE IF EXISTS `extra_images`;
 CREATE TABLE `extra_images` (
   `id` int NOT NULL,
   `recipe_id` int NOT NULL,
@@ -608,6 +611,7 @@ INSERT INTO `extra_images` (`id`, `recipe_id`, `type`, `step_number`, `label`, `
 -- Table structure for table `images`
 --
 
+DROP TABLE IF EXISTS `images`;
 CREATE TABLE `images` (
   `id` int NOT NULL,
   `recipe_id` int NOT NULL,
@@ -1286,6 +1290,7 @@ INSERT INTO `images` (`id`, `recipe_id`, `type`, `step_number`, `label`, `size`,
 -- Table structure for table `ingredients`
 --
 
+DROP TABLE IF EXISTS `ingredients`;
 CREATE TABLE `ingredients` (
   `id` int NOT NULL,
   `recipe_id` int NOT NULL,
@@ -1737,10 +1742,11 @@ INSERT INTO `ingredients` (`id`, `recipe_id`, `sort_order`, `quantity`, `unit`, 
 -- Table structure for table `recipes`
 --
 
+DROP TABLE IF EXISTS `recipes`;
 CREATE TABLE `recipes` (
   `id` int NOT NULL,
   `slug` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `title` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
   `subtitle` varchar(180) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `category_id` int DEFAULT NULL,
   `servings` tinyint UNSIGNED DEFAULT NULL,
@@ -1757,7 +1763,7 @@ CREATE TABLE `recipes` (
 -- Dumping data for table `recipes`
 --
 
-INSERT INTO `recipes` (`id`, `slug`, `title`, `subtitle`, `category_id`, `servings`, `description`, `ingredient_count`, `step_count`, `main_image`, `ingredients_image`, `image_folder`, `source_pdf`) VALUES
+INSERT INTO `recipes` (`id`, `slug`, `name`, `subtitle`, `category_id`, `servings`, `description`, `ingredient_count`, `step_count`, `main_image`, `ingredients_image`, `image_folder`, `source_pdf`) VALUES
 (1, 'ancho-orange-chicken', 'Ancho-Orange Chicken', 'with Kale Rice & Roasted Carrots', 1, 4, 'We\'re amping up chicken breasts with a glaze of smoky ancho chile paste and fresh orange juice in this recipe. On the side, roasted carrots and lightly creamy, golden raisin-studded rice perfectly accent the sweetness of the glaze.', 11, 6, 'images/ancho-orange-chicken/dish.jpg', 'images/ancho-orange-chicken/ingredients.png', 'images/ancho-orange-chicken', 'Recipe_Ancho-Orange_Chicken_with_Kale_Rice_Roasted_Carrots.pdf'),
 (2, 'beef-medallions-mushroom-sauce', 'Beef Medallions & Mushroom Sauce', 'with Mashed Potatoes', 1, 2, 'In this easy recipe, inspired by steak Diane (an American restaurant classic), we\'re searing beef medallions, then using the fond in the pan to make a rich, bright mushroom sauce for spooning on top. Garlic mashed potatoes and sautéed kale make for delicious, simple sides.', 9, 6, 'images/beef-medallions-mushroom-sauce/dish.jpg', 'images/beef-medallions-mushroom-sauce/ingredients.png', 'images/beef-medallions-mushroom-sauce', 'Recipe_Beef_Medallions_Mushroom_Sauce_with_Mashed_Potatoes.pdf'),
 (3, 'broccoli-basil-pesto-sandwiches', 'Broccoli & Basil Pesto Sandwiches', 'with Romaine & Citrus Salad', 2, 4, 'These Italian focaccia sandwiches are layered with broccoli, three cheeses, and a savory basil, cashew, and pine nut pesto, then baked in the oven to meld all the bright, aromatic flavors. On the side, we\'re serving a refreshing salad of romaine and seasonal clementine, dressed in a creamy dressing made with fresh clementine juice.', 14, 6, 'images/broccoli-basil-pesto-sandwiches/dish.jpg', 'images/broccoli-basil-pesto-sandwiches/ingredients.png', 'images/broccoli-basil-pesto-sandwiches', 'Recipe_Broccoli_Basil_Pesto_Sandwiches_with_Romaine_Citrus_Salad.pdf'),
@@ -1805,6 +1811,7 @@ INSERT INTO `recipes` (`id`, `slug`, `title`, `subtitle`, `category_id`, `servin
 -- Table structure for table `recipe_tools`
 --
 
+DROP TABLE IF EXISTS `recipe_tools`;
 CREATE TABLE `recipe_tools` (
   `recipe_id` int NOT NULL,
   `tool_id` int NOT NULL,
@@ -1863,6 +1870,7 @@ INSERT INTO `recipe_tools` (`recipe_id`, `tool_id`, `source`) VALUES
 -- Table structure for table `steps`
 --
 
+DROP TABLE IF EXISTS `steps`;
 CREATE TABLE `steps` (
   `id` int NOT NULL,
   `recipe_id` int NOT NULL,
@@ -2122,6 +2130,7 @@ INSERT INTO `steps` (`id`, `recipe_id`, `step_number`, `step_title`, `instructio
 -- Table structure for table `tips`
 --
 
+DROP TABLE IF EXISTS `tips`;
 CREATE TABLE `tips` (
   `id` int NOT NULL,
   `recipe_id` int NOT NULL,
@@ -2137,6 +2146,7 @@ CREATE TABLE `tips` (
 -- Table structure for table `tools`
 --
 
+DROP TABLE IF EXISTS `tools`;
 CREATE TABLE `tools` (
   `id` int NOT NULL,
   `name` varchar(160) COLLATE utf8mb4_unicode_ci NOT NULL,

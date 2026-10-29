@@ -1,37 +1,18 @@
 <?php
 declare(strict_types=1);
 require 'inc/db.php';
-
-function get_value(string $key): string {
-    return trim($_GET[$key] ?? '');
-}
-
-function e(string $value): string {
-  return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-}
+require 'inc/functions.php';
 
 $query = get_value('q');
-$results = [];
+$category_id = get_value('category');
 $error = '';
 
-$db_result = mysqli_query(
-    $conn,
-    'SELECT recipes.*, categories.name AS category
-     FROM recipes
-     LEFT JOIN categories ON recipes.category_id = categories.id'
-);
-$recipes = mysqli_fetch_all($db_result, MYSQLI_ASSOC);
+$categories = get_all_categories($conn);
 
-if (isset($_GET['q'])) {
-    if ($query !== '') {
-        foreach($recipes as $recipe) {
-            if (str_contains(strtolower($recipe['title']), strtolower($query))) {
-                $results[] = $recipe;
-            }
-        }
-    } else {
-        $error = 'Please enter a search query.';
-    }
+if ($query !== '' || $category_id !== '') {
+    $recipes = search_recipes($conn, $query, $category_id);
+} else {
+    $recipes = get_all_recipes($conn);
 }
 
 ?>
@@ -41,65 +22,45 @@ if (isset($_GET['q'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cookbook</title>
-
-    <style>
-        .error {
-            color: red;
-        }
-        .table-container {
-            overflow-x: auto;   
-        }
-
-        table {
-            border-collapse: collapse;
-            font-size: 14px;
-        }
-
-        th,
-        td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: left;
-            vertical-align: top;
-        }
-
-        th {
-            background-color: #eee;
-        }
-
-        td {
-            min-width: 100px;
-        }
-
-        td:nth-child(7) {
-            min-width: 350px;
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <h1>Search For a Recipe</h1>
     <form action="index.php" method="get">
         <label for="q">Recipe name </label>
-        <input type="search" id="q" name="q" value="">
+        <input type="search" id="q" name="q" value="<?= e($query); ?>">
+        <label for="category">Category</label>
+        <select name="category" id="category">
+            <option value="">All categories</option>
+            <?php foreach ($categories as $category) : ?>
+                <option value="<?= e((string) $category['id']); ?>"
+                    <?= $category_id === (string) $category['id'] ? 'selected' : ''; ?>>
+                    <?= e($category['name']); ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
         <button type="submit">Search</button>
     </form>
+
     <?php if ($error !== '') : ?>
         <p class="error"><?= e($error); ?></p>
-    <?php elseif ($query !== '') : ?>
-        <p> There are <?= count($results); ?> result(s) for "<?= e($query); ?>":</p>
-        <ul> <?php foreach ($results as $recipe) : ?>
-            <li><?= e($recipe['title']); ?></li>
-        <?php endforeach; ?>
-        </ul>
+    <?php elseif ($query !== '' || $category_id !== '') : ?>
+        <p> There are <?= count($recipes); ?> result(s) for "<?= e($query); ?>":
+        </p>
     <?php endif; ?>
+    
     <div class="table-container">
-        <h2>All Recipes</h2>
+        <?php if ($query !== '' || $category_id !== '') : ?>
+            <h2>Recipes</h2>
+        <?php else : ?>
+            <h2>All Recipes</h2>
+        <?php endif; ?>
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Slug</th>
-                    <th>Title</th>
+                    <th>Name</th>
                     <th>Subtitle</th>
                     <th>Category</th>
                     <th>Servings</th>
@@ -117,7 +78,7 @@ if (isset($_GET['q'])) {
                 <tr>
                     <td><?= e((string) $recipe['id']); ?></td>
                     <td><?= e($recipe['slug']); ?></td>
-                    <td><?= e($recipe['title']); ?></td>
+                    <td><?= e($recipe['name']); ?></td>
                     <td><?= e($recipe['subtitle'] ?? ''); ?></td>
                     <td><?= e($recipe['category'] ?? ''); ?></td>
                     <td><?= e((string) ($recipe['servings'] ?? '')); ?></td>
