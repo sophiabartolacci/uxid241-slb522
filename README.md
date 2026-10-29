@@ -26,3 +26,4 @@ Before running the project locally, you will need:
 - ChatGPT — used for guidance with setting up MAMP
 - ChatGPT — assisted with reorganizing the provided recipe data to match the database schema and preparing the data for import into phpMyAdmin.
 - ChatGPT — assisted with troubleshooting SQL and phpMyAdmin import errors, including handling NULL values and foreign key constraints.
+- ChatGPT — generated the initial CSS styling and responsive layout for the public recipe pages
