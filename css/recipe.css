@@ -1,0 +1,186 @@
+/*
+AI: summarized prompt — "Create a responsive recipe detail layout with
+a controlled hero image, two-column ingredients, and image-based recipe
+steps." — ChatGPT (GPT-5.6 Sol), 2026-11-04.
+Reviewed and modified for this project.
+*/
+
+.ingredient-list {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.ingredients-image {
+    display: block;
+    width: 100%;
+    max-width: 350px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.ingredients-layout {
+    display: grid;
+    grid-template-columns: minmax(250px, 350px) 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+.ingredients-section {
+    margin-top: 56px;
+}
+
+.recipe-description {
+    max-width: 700px;
+    margin: 24px auto 0;
+    line-height: 1.7;
+}
+
+.recipe-details {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.recipe-header {
+    max-width: 700px;
+    margin: 32px auto 24px;
+    text-align: center;
+}
+
+.recipe-info {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 16px;
+    font-weight: 600;
+}
+
+.recipe-main-image {
+    display: block;
+    width: 100%;
+    max-width: 650px;
+    max-height: 430px;
+    margin: 0 auto;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.recipe-step {
+    padding: 28px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.recipe-subtitle {
+    margin: 4px 0 0;
+    color: #666;
+    font-size: 1.25rem;
+}
+
+.step-content {
+    display: grid;
+    grid-template-columns: minmax(220px, 320px) 1fr;
+    gap: 32px;
+    align-items: start;
+}
+
+.step-header {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    margin-bottom: 16px;
+}
+
+.step-image {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.step-number {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.steps-list {
+    margin-top: 16px;
+}
+
+.steps-section {
+    margin-top: 56px;
+}
+
+.ingredient-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.ingredients-section h2 {
+    padding-bottom: 8px;
+    border-bottom: 2px solid #315c45;
+}
+
+.recipe-header h1 {
+    margin-bottom: 0;
+}
+
+.step-content p {
+    margin-top: 0;
+}
+
+.step-header h3 {
+    margin: 0;
+}
+
+.steps-section h2 {
+    padding-bottom: 8px;
+    border-bottom: 2px solid #315c45;
+}
+
+@media (max-width: 700px) {
+    .ingredients-image {
+        max-width: 100%;
+    }
+
+    .ingredients-layout {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .ingredients-section {
+        margin-top: 40px;
+    }
+
+    .recipe-details {
+        width: 100%;
+    }
+
+    .recipe-header {
+        margin-top: 24px;
+        text-align: left;
+    }
+
+    .recipe-info {
+        justify-content: flex-start;
+    }
+
+    .recipe-main-image {
+        max-width: 100%;
+        max-height: none;
+    }
+
+    .step-content {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .step-image {
+        max-width: 100%;
+    }
+
+    .steps-section {
+        margin-top: 40px;
+    }
+}

@@ -23,50 +23,103 @@ if ($recipe === null) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $recipe !== null ? e($recipe['name']) : 'Recipe'; ?> | Cookbook</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/recipe.css">
 </head>
 <body>
     <a href="index.php">Back to recipes</a>
     <?php if ($error !== '') : ?>
         <p class="error"><?= e($error); ?></p>
     <?php else : ?>
-        <p><?= e($recipe['category'] ?? ''); ?></p>
-        <h1><?= e($recipe['name']); ?></h1>
-        <?php if (!empty($recipe['subtitle'])) : ?>
-            <h2><?= e($recipe['subtitle']); ?></h2>
-        <?php endif; ?>
-        <p>Serves <?= e((string) $recipe['servings']); ?></p>
-        <?php if (!empty($recipe['description'])) : ?>
-            <p><?= e($recipe['description']); ?></p>
-        <?php endif; ?>
-        <h2>Ingredients</h2>
-        <?php if (count($ingredients) > 0) : ?>
-            <ul>
-                <?php foreach ($ingredients as $ingredient) : ?>
-                    <li>
-                        <?= e($ingredient['quantity'] ?? ''); ?>
-                        <?= e($ingredient['unit'] ?? ''); ?>
-                        <?= e($ingredient['name'] ?? ''); ?>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        <?php else: ?>
-            <p>No ingredients available.</p>
-        <?php endif; ?>        
-        <h2>Steps</h2>
-        <?php if (count($steps) > 0) : ?>
-            <ol>
-                <?php foreach ($steps as $step) : ?>
-                    <li>
-                        <?php if (!empty($step['step_title'])) : ?>
-                            <h3><?= e($step['step_title']); ?></h3>
-                        <?php endif; ?>
-                        <p><?= e($step['instructions']); ?></p>
-                    </li>
-                <?php endforeach; ?>
-            </ol>
-        <?php else: ?>
-            <p>No steps available.</p>
-        <?php endif; ?>
+        <main class="recipe-details">
+            <header class="recipe-header">
+                <h1><?= e($recipe['name']); ?></h1>
+
+                <?php if (!empty($recipe['subtitle'])) : ?>
+                    <p class="recipe-subtitle"><?= e($recipe['subtitle']); ?></p>
+                <?php endif; ?>
+            </header>
+
+            <?php if (!empty($recipe['main_image'])) : ?>
+                <img 
+                    class="recipe-main-image"
+                    src="<?= e($recipe['main_image']); ?>"
+                    alt="<?= e($recipe['name']); ?>"
+                    >
+            <?php endif; ?> 
+            <div class="recipe-info">
+                <span>Serves <?= e((string) $recipe['servings']); ?></span>
+
+                <?php if (!empty($recipe['category'])) : ?>
+                    <span>•</span>
+                    <span><?= e($recipe['category']); ?></span>
+                <?php endif; ?>
+            </div>
+
+            <?php if (!empty($recipe['description'])) : ?>
+                <p class="recipe-description"><?= e($recipe['description']); ?></p>
+            <?php endif; ?>
+            
+            <section class="ingredients-section">
+                <h2>Ingredients</h2>
+                <div class="ingredients-layout">
+                    <?php if (!empty($recipe['ingredients_image'])) : ?>
+                        <img
+                            class="ingredients-image"
+                            src="<?= e($recipe['ingredients_image']); ?>"
+                            alt="Ingredients for <?= e($recipe['name']); ?>"
+                        >
+                    <?php endif; ?>
+
+                    <?php if (count($ingredients) > 0) : ?>
+                        <ul class="ingredient-list">
+                            <?php foreach ($ingredients as $ingredient) : ?>
+                                <li>
+                                    <?= e($ingredient['quantity'] ?? ''); ?>
+                                    <?= e($ingredient['unit'] ?? ''); ?>
+                                    <?= e($ingredient['name'] ?? ''); ?>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php else: ?>
+                        <p>No ingredients available.</p>
+                    <?php endif; ?>   
+                </div>
+            </section>
+
+            <section class="steps-section">
+                <h2>Steps</h2>
+                <?php if (count($steps) > 0) : ?>
+                    <div class="steps-list">
+                        <?php foreach ($steps as $step) : ?>
+                            <article class="recipe-step">
+                                <div class="step-header">
+                                    <p class="step-number">
+                                        <?= e((string) $step['step_number']); ?>
+                                    </p>
+                                    <?php if (!empty($step['step_title'])) : ?>
+                                        <h3><?= e($step['step_title']); ?></h3>
+                                    <?php endif; ?>
+                                </div>
+                                
+                                <div class="step-content">
+                                    <?php if (!empty($step['image'])) : ?>
+                                        <img
+                                            class="step-image"
+                                            src="<?= e($step['image']); ?>"
+                                            alt="Step <?= e((string) $step['step_number']); ?> for <?= e($recipe['name']); ?>"
+                                        >
+                                    <?php endif; ?>
+                                    <p><?= e($step['instructions']); ?></p>
+                                </div>
+                            </article>
+                        <?php endforeach; ?>
+                    </div>
+                <?php else: ?>
+                    <p>No steps available.</p>
+                <?php endif; ?>
+            </section>
+
+        </main>
     <?php endif; ?>
 </body>
 </html>

@@ -8,6 +8,11 @@ Reviewed and modified for this project.
     box-sizing: border-box;
 }
 
+a {
+    color: #315c45;
+    font-weight: 600;
+}
+
 body {
     max-width: 1200px;
     margin: 0 auto;
@@ -16,6 +21,25 @@ body {
     line-height: 1.6;
     color: #222;
     background-color: #faf9f6;
+}
+
+button {
+    color: white;
+    background-color: #315c45;
+    border: none;
+    cursor: pointer;
+}
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin: 24px 0 32px;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
 }
 
 h1 {
@@ -33,58 +57,54 @@ h3 {
     margin-bottom: 4px;
 }
 
-a {
-    color: #315c45;
-    font-weight: 600;
-}
-
-a:hover {
-    text-decoration: none;
-}
-
-body > a {
-    display: inline-block;
-    margin-bottom: 24px;
-}
-
-form {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    align-items: center;
-    margin: 24px 0 32px;
-    padding: 20px;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+input {
+    min-width: 250px;
 }
 
 label {
     font-weight: 600;
 }
 
+li {
+    margin-bottom: 10px;
+}
+
+ol,
+ul {
+    padding-left: 24px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    background-color: white;
+}
+
+td {
+    min-width: 100px;
+}
+
+th {
+    background-color: #eee;
+    white-space: nowrap;
+}
+
+button,
 input,
-select,
-button {
+select {
     padding: 10px 12px;
     font: inherit;
     border: 1px solid #bbb;
     border-radius: 6px;
 }
 
-input {
-    min-width: 250px;
-}
-
-button {
-    color: white;
-    background-color: #315c45;
-    border: none;
-    cursor: pointer;
-}
-
-button:hover {
-    opacity: 0.85;
+td,
+th {
+    padding: 8px;
+    text-align: left;
+    vertical-align: top;
+    border: 1px solid #ccc;
 }
 
 .error {
@@ -95,49 +115,21 @@ button:hover {
     border-radius: 6px;
 }
 
-ul,
-ol {
-    padding-left: 24px;
-}
-
-li {
-    margin-bottom: 10px;
-}
-
-ol li {
-    padding-left: 8px;
-}
-
-ol li h3 {
-    margin-top: 24px;
-}
-
 .table-container {
     overflow-x: auto;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-    background-color: white;
+a:hover {
+    text-decoration: none;
 }
 
-th,
-td {
-    padding: 8px;
-    text-align: left;
-    vertical-align: top;
-    border: 1px solid #ccc;
+button:hover {
+    opacity: 0.85;
 }
 
-th {
-    background-color: #eee;
-    white-space: nowrap;
-}
-
-td {
-    min-width: 100px;
+body > a {
+    display: inline-block;
+    margin-bottom: 24px;
 }
 
 td:nth-child(7) {
@@ -157,22 +149,22 @@ tbody tr:hover {
         padding: 24px 16px;
     }
 
-    h1 {
-        font-size: 2rem;
-    }
-
     form {
         align-items: stretch;
         flex-direction: column;
     }
 
-    input,
-    select,
-    button {
-        width: 100%;
+    h1 {
+        font-size: 2rem;
     }
 
     input {
         min-width: 0;
+    }
+
+    button,
+    input,
+    select {
+        width: 100%;
     }
 }
