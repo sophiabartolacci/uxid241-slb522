@@ -68,8 +68,9 @@ function search_recipes(mysqli $conn, string $query, string $category_id): array
 }
 
 function get_all_categories(mysqli $conn): array {
-    $sql = 'SELECT id, name
-            FROM categories 
-            ORDER BY id ASC;';
+    $sql = 'SELECT DISTINCT categories.id, categories.name
+            FROM categories
+            INNER JOIN recipes ON categories.id = recipes.category_id 
+            ORDER BY categories.id ASC;';
     return mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
 }
