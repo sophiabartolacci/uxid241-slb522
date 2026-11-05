@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <h1>Login</h1>
     <?php if (!empty($error)): ?>
-        <p><?= e($error) ?></p>
+        <p class="error"><?= e($error) ?></p>
     <?php endif; ?>
 
     <form method="post">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Oct 27, 2026 at 09:23 PM
+-- Generation Time: Nov 05, 2026 at 02:48 AM
 -- Server version: 8.0.44
 -- PHP Version: 8.3.30
 
@@ -2173,6 +2173,26 @@ INSERT INTO `tools` (`id`, `name`, `brand`, `description`, `image`, `image_2`, `
 (9, 'Salad Spinner, Family Plan', 'Zyliss', 'Cut down on prep time with this Swiss-designed salad spinner. Why we love this: Because every Blue Apron recipe starts with \"wash and dry the fresh produce\". Shortcut this step with the award-winning Zyliss salad spinner. With just one pump of the lever, your greens will spin dry and be ready for step two.', 'images/tools/salad-spinner-family-plan-1.jpg', 'images/tools/salad-spinner-family-plan-2.jpg', ''),
 (10, '12.5\" PFOA-Free CTX Nonstick Pan', 'Scanpan', 'This customer favorite is a true stovetop trifecta: nonstick, heavy duty, and environmentally sound. When meal prep requires a delicate touch—think eggs over easy or a seared salmon fillet—our culinary team grabs this even-heating, toxicant-free pan. The patented ceramic titanium coating stands up to utensils (yes, even metal!), and best of all, it\'s easy to clean.', 'images/tools/12-5-pfoa-free-ctx-nonstick-pan-1.jpg', 'images/tools/12-5-pfoa-free-ctx-nonstick-pan-2.jpg', 'images/tools/12-5-pfoa-free-ctx-nonstick-pan-3.jpg');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `id` int NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password_hash` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `email`, `password_hash`) VALUES
+(1, 'admin@example.com', '$2y$10$m7VN6FBQE79iOPekXOJcJ.MfpzsjqeOZ4vfv9XbKfd/GOlLbRTHCW');
+
 --
 -- Indexes for dumped tables
 --
@@ -2249,6 +2269,13 @@ ALTER TABLE `tools`
   ADD UNIQUE KEY `name` (`name`);
 
 --
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -2305,6 +2332,12 @@ ALTER TABLE `tips`
 --
 ALTER TABLE `tools`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables

@@ -26,7 +26,9 @@ if ($recipe === null) {
     <link rel="stylesheet" href="css/recipe.css">
 </head>
 <body>
-    <a href="index.php">Back to recipes</a>
+    <a class="admin-login-button" href="login.php">Admin Login</a>
+    <a class="back-link" href="index.php">Back to recipes</a>
+
     <?php if ($error !== '') : ?>
         <p class="error"><?= e($error); ?></p>
     <?php else : ?>

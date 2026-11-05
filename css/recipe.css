@@ -11,18 +11,18 @@ Reviewed and modified for this project.
 }
 
 .ingredients-image {
-    display: block;
-    width: 100%;
-    max-width: 350px;
-    height: auto;
     border-radius: 8px;
+    display: block;
+    height: auto;
+    max-width: 350px;
+    width: 100%;
 }
 
 .ingredients-layout {
-    display: grid;
-    grid-template-columns: minmax(250px, 350px) 1fr;
-    gap: 40px;
     align-items: start;
+    display: grid;
+    gap: 40px;
+    grid-template-columns: minmax(250px, 350px) 1fr;
 }
 
 .ingredients-section {
@@ -30,78 +30,78 @@ Reviewed and modified for this project.
 }
 
 .recipe-description {
-    max-width: 700px;
-    margin: 24px auto 0;
     line-height: 1.7;
+    margin: 24px auto 0;
+    max-width: 700px;
 }
 
 .recipe-details {
-    width: 100%;
-    max-width: 850px;
     margin: 0 auto;
+    max-width: 850px;
+    width: 100%;
 }
 
 .recipe-header {
-    max-width: 700px;
     margin: 32px auto 24px;
+    max-width: 700px;
     text-align: center;
 }
 
 .recipe-info {
     display: flex;
+    font-weight: 600;
     gap: 10px;
     justify-content: center;
     margin-top: 16px;
-    font-weight: 600;
 }
 
 .recipe-main-image {
-    display: block;
-    width: 100%;
-    max-width: 650px;
-    max-height: 430px;
-    margin: 0 auto;
-    object-fit: cover;
     border-radius: 8px;
+    display: block;
+    margin: 0 auto;
+    max-height: 430px;
+    max-width: 650px;
+    object-fit: cover;
+    width: 100%;
 }
 
 .recipe-step {
-    padding: 28px 0;
     border-bottom: 1px solid #ddd;
+    padding: 28px 0;
 }
 
 .recipe-subtitle {
-    margin: 4px 0 0;
-    color: #666;
+    color: #716a63;
     font-size: 1.25rem;
+    margin: 4px 0 0;
 }
 
 .step-content {
-    display: grid;
-    grid-template-columns: minmax(220px, 320px) 1fr;
-    gap: 32px;
     align-items: start;
+    display: grid;
+    gap: 32px;
+    grid-template-columns: minmax(220px, 320px) 1fr;
 }
 
 .step-header {
+    align-items: baseline;
     display: flex;
     gap: 12px;
-    align-items: baseline;
     margin-bottom: 16px;
 }
 
 .step-image {
-    display: block;
-    width: 100%;
-    max-width: 320px;
-    height: auto;
     border-radius: 8px;
+    display: block;
+    height: auto;
+    max-width: 320px;
+    width: 100%;
 }
 
 .step-number {
-    margin: 0;
     font-size: 1.5rem;
     font-weight: 700;
+    margin: 0;
 }
 
 .steps-list {
@@ -113,13 +113,13 @@ Reviewed and modified for this project.
 }
 
 .ingredient-list li {
-    padding: 8px 0;
     border-bottom: 1px solid #ddd;
+    padding: 8px 0;
 }
 
 .ingredients-section h2 {
+    border-bottom: 2px solid #b64b32;
     padding-bottom: 8px;
-    border-bottom: 2px solid #315c45;
 }
 
 .recipe-header h1 {
@@ -135,8 +135,8 @@ Reviewed and modified for this project.
 }
 
 .steps-section h2 {
+    border-bottom: 2px solid #b64b32;
     padding-bottom: 8px;
-    border-bottom: 2px solid #315c45;
 }
 
 @media (max-width: 700px) {
@@ -145,8 +145,8 @@ Reviewed and modified for this project.
     }
 
     .ingredients-layout {
-        grid-template-columns: 1fr;
         gap: 24px;
+        grid-template-columns: 1fr;
     }
 
     .ingredients-section {
@@ -167,13 +167,13 @@ Reviewed and modified for this project.
     }
 
     .recipe-main-image {
-        max-width: 100%;
         max-height: none;
+        max-width: 100%;
     }
 
     .step-content {
-        grid-template-columns: 1fr;
         gap: 16px;
+        grid-template-columns: 1fr;
     }
 
     .step-image {
