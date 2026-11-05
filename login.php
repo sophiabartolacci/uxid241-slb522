@@ -8,7 +8,6 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = post_value('email');
     $plain = $_POST['password'] ?? '';
-    // $hash = password_hash($plain, PASSWORD_DEFAULT);
 
     $result = mysqli_execute_query(
         $conn,
