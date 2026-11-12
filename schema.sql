@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Nov 05, 2026 at 02:48 AM
+-- Generation Time: Nov 12, 2026 at 04:20 AM
 -- Server version: 8.0.44
 -- PHP Version: 8.3.30
 
@@ -1745,7 +1745,7 @@ INSERT INTO `ingredients` (`id`, `recipe_id`, `sort_order`, `quantity`, `unit`, 
 DROP TABLE IF EXISTS `recipes`;
 CREATE TABLE `recipes` (
   `id` int NOT NULL,
-  `slug` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `name` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
   `subtitle` varchar(180) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `category_id` int DEFAULT NULL,
@@ -2307,19 +2307,19 @@ ALTER TABLE `images`
 -- AUTO_INCREMENT for table `ingredients`
 --
 ALTER TABLE `ingredients`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=429;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=440;
 
 --
 -- AUTO_INCREMENT for table `recipes`
 --
 ALTER TABLE `recipes`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `steps`
 --
 ALTER TABLE `steps`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=235;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=247;
 
 --
 -- AUTO_INCREMENT for table `tips`
