@@ -74,3 +74,10 @@ function get_all_categories(mysqli $conn): array {
             ORDER BY categories.id ASC;';
     return mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
 }
+
+function get_categories(mysqli $conn): array {
+    $sql = 'SELECT id, name
+            FROM categories
+            ORDER BY id ASC;';
+    return mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
+}
