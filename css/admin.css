@@ -170,6 +170,17 @@ textarea {
     margin: 0;
 }
 
+.current-image img {
+    border-radius: 8px;
+    display: block;
+    height: auto;
+    margin: 8px 0 16px;
+    max-height: 200px;
+    max-width: 300px;
+    object-fit: contain;
+    width: auto;
+}
+
 .ingredient-fieldset input,
 .step-fieldset input,
 .step-fieldset textarea {

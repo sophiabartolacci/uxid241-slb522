@@ -10,6 +10,7 @@ $id = (int) get_value('id');
 $recipe = get_recipe($conn, $id);
 $categories = get_categories($conn);
 $error = '';
+$upload_folder = __DIR__ . '/../images/uploads';
 
 if ($recipe === null) {
     http_response_code(404);
@@ -86,6 +87,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $step_titles[] = '';
         $step_instructions_list[] = '';
     } elseif (isset($_POST['save_recipe'])) {
+        $main_image = $recipe['main_image'] ?? null;
+        if (isset($_FILES['main_image']) && $_FILES['main_image']['error'] !== UPLOAD_ERR_NO_FILE) {
+            try {
+                $saved_image = save_upload(
+                    $_FILES['main_image']['tmp_name'],
+                    $_FILES['main_image']['name'],
+                    $_FILES['main_image']['size'],
+                    $_FILES['main_image']['error'],
+                    $upload_folder
+                );
+                $main_image = 'images/uploads/' . $saved_image;
+            } catch (RuntimeException $e) {
+                $error = $e->getMessage();
+            }
+        }
         if ($name === '') {
             $error = 'Recipe name is required';
         } elseif ($category_id === '') {
@@ -96,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             (int) $servings < 1
         ) {
             $error = 'Servings must be a positive number';
-        } else {
+        } elseif ($error === '') {
             mysqli_execute_query(
                 $conn,
                 'UPDATE recipes
@@ -104,7 +120,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      subtitle = ?,
                      category_id = ?,
                      servings = ?,
-                     description = ?
+                     description = ?,
+                     main_image = ?
                  WHERE id = ?',
                 [
                     $name,
@@ -112,6 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     (int) $category_id,
                     (int) $servings,
                     $description !== '' ? $description : null,
+                    $main_image,
                     $id
                 ]
             );
@@ -220,7 +238,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p class="error"><?= e($error); ?></p>
         <?php endif; ?>
 
-        <form class="recipe-form" method="post">
+        <form class="recipe-form" method="post" enctype="multipart/form-data">
             <input
                 type="hidden"
                 name="csrf_token"
@@ -279,6 +297,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 id="description"
                 name="description"
             ><?= e($description); ?></textarea>
+
+            <h2>Recipe Image</h2>
+            <?php if (!empty($recipe['main_image'])) : ?>
+                <div class="current-image">
+                    <p>Current Image</p>
+                    <img src="../<?= e($recipe['main_image']); ?>" 
+                     alt="<?= e($recipe['name']); ?>">
+                </div>
+            <?php endif; ?>
+
+            <div class="form-field">
+                <label for="main_image">Upload Image</label>
+                <input 
+                    type="file"
+                    id="main_image"
+                    name="main_image"
+                    accept=".jpeg, .jpg, .png, .webp"
+                    >
+            </div>
 
             <h2 id="ingredients">Ingredients</h2>
 
