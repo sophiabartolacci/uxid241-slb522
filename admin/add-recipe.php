@@ -14,6 +14,7 @@ $category_id = '';
 $servings = '';
 $description = '';
 $error = '';
+$upload_folder = __DIR__ . '/../images/uploads';
 $ingredient_names = [''];
 $ingredient_quantities = [''];
 $ingredient_units = [''];
@@ -42,14 +43,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit('Invalid CSRF token');
     }
 
-    if (isset($_POST['add_ingredient'])) {
-        $ingredient_names[] = '';
-        $ingredient_quantities[] = '';
-        $ingredient_units[] = '';
-    } elseif (isset($_POST['add_step'])) {
-        $step_titles[] = '';
-        $step_instructions_list[] = '';
-    } elseif (isset($_POST['save_recipe'])) {
+    if (isset($_POST['save_recipe'])) {
+        $main_image = null;
+        if (isset($_FILES['main_image']) && $_FILES['main_image']['error'] !== UPLOAD_ERR_NO_FILE) {
+            try {
+                $saved_image = save_upload(
+                    $_FILES['main_image']['tmp_name'],
+                    $_FILES['main_image']['name'],
+                    $_FILES['main_image']['size'],
+                    $_FILES['main_image']['error'],
+                    $upload_folder
+                );
+                $main_image = 'images/uploads/' . $saved_image;
+            } catch (RuntimeException $e) {
+                $error = $e->getMessage();
+            }
+        }
+        $ingredients_image = null;
+        if (isset($_FILES['ingredients_image']) && $_FILES['ingredients_image']['error'] !== UPLOAD_ERR_NO_FILE) {
+            try {
+                $saved_image = save_upload(
+                    $_FILES['ingredients_image']['tmp_name'],
+                    $_FILES['ingredients_image']['name'],
+                    $_FILES['ingredients_image']['size'],
+                    $_FILES['ingredients_image']['error'],
+                    $upload_folder
+                );
+                $ingredients_image = 'images/uploads/' . $saved_image;
+            } catch (RuntimeException $e) {
+                $error = $e->getMessage();
+            }
+        }
         if ($name === '') {
             $error = 'Recipe name is required';
         } elseif ($category_id === '') {
@@ -58,18 +82,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $servings === '' || !ctype_digit($servings) || (int) $servings < 1
         ) {
             $error = 'Servings must be a positive number';
-        } else {
+        } elseif ($error === '') {
             mysqli_execute_query(
                 $conn,
                 'INSERT INTO recipes
-                    (name, subtitle, category_id, servings, description)
-                 VALUES (?, ?, ?, ?, ?)',
+                    (name, subtitle, category_id, servings, description, main_image, ingredients_image)
+                 VALUES (?, ?, ?, ?, ?, ?, ?)',
                 [
                     $name,
                     $subtitle !== '' ? $subtitle : null,
                     (int) $category_id,
                     (int) $servings,
-                    $description !== '' ? $description : null
+                    $description !== '' ? $description : null,
+                    $main_image,
+                    $ingredients_image
                 ]
             );
 
@@ -109,24 +135,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     continue;
                 }
                 $step_title = trim((string) ($step_titles[$index] ?? ''));
+                $step_image = null;
+                if (isset($_FILES['step_image']['error'][$index]) && $_FILES['step_image']['error'][$index] !== UPLOAD_ERR_NO_FILE) {
+                    try {
+                        $saved_image = save_upload(
+                            $_FILES['step_image']['tmp_name'][$index],
+                            $_FILES['step_image']['name'][$index],
+                            $_FILES['step_image']['size'][$index],
+                            $_FILES['step_image']['error'][$index],
+                            $upload_folder
+                        );
+                        $step_image = 'images/uploads/' . $saved_image;
+                    } catch (RuntimeException $e) {
+                        $error = $e->getMessage();
+                    }
+                }
+
+                if ($error !== '') {
+                    break;
+                }
 
                 mysqli_execute_query(
                     $conn,
                     'INSERT INTO steps
-                        (recipe_id, step_number, step_title, instructions)
-                     VALUES (?, ?, ?, ?)',
+                        (recipe_id, step_number, step_title, instructions, image)
+                     VALUES (?, ?, ?, ?, ?)',
                     [
                         $recipe_id,
                         $step_number,
                         $step_title !== '' ? $step_title : null,
-                        $step_instructions
+                        $step_instructions,
+                        $step_image
                     ]
                 );
                 $step_number++;
             }
-            $_SESSION['success'] = 'Recipe added successfully.';
-            header('Location: index.php');
-            exit;
+            if ($error === '') {
+                $_SESSION['success'] = 'Recipe added successfully.';
+                header('Location: index.php');
+                exit;
+            }
         }
     }
 }
@@ -150,7 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p class="error"><?= e($error); ?></p>
         <?php endif; ?>
 
-        <form class="recipe-form"method="post">
+        <form class="recipe-form" method="post" enctype="multipart/form-data">
             <input
                 type="hidden"
                 name="csrf_token"
@@ -210,107 +258,121 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 name="description"
             ><?= e($description); ?></textarea>
 
-            <h2 id="ingredients">Ingredients</h2>
-            <?php foreach ($ingredient_names as $index => $ingredient_name) : ?>
-                <!--
-                AI: ChatGPT assisted with keeping the page positioned at the newly
-                added ingredient after the PHP form reloads.
-                -->
-                <fieldset 
-                    class="ingredient-fieldset"
-                    <?= $index === array_key_last($ingredient_names) ? 'id="ingredients-new"' : ''; ?>
+            <h2>Recipe Image</h2>
+            <div class="form-field">
+                <label for="main_image">Upload Image</label>
+                <input
+                    type="file"
+                    id="main_image"
+                    name="main_image"
+                    accept=".jpeg, .jpg, .png, .webp"
                 >
-                    <legend>Ingredient <?= $index + 1; ?></legend>
-                    <div class="form-field">
-                        <label for="ingredient_quantity_<?= $index; ?>">
-                            Quantity
-                        </label>
-                        <input
-                            type="text"
-                            id="ingredient_quantity_<?= $index; ?>"
-                            name="ingredient_quantity[]"
-                            placeholder="e.g. 1 1/2"
-                            value="<?= e((string) ($ingredient_quantities[$index] ?? '')); ?>"
-                        >
-                    </div>
-                    <div class="form-field">
-                        <label for="ingredient_unit_<?= $index; ?>">
-                            Unit
-                        </label>
-                        <input
-                            type="text"
-                            id="ingredient_unit_<?= $index; ?>"
-                            name="ingredient_unit[]"
-                            placeholder="e.g. cups"
-                            value="<?= e((string) ($ingredient_units[$index] ?? '')); ?>"
-                        >
-                    </div>
-                    <div class="form-field">
-                        <label for="ingredient_name_<?= $index; ?>">
-                            Ingredient
-                        </label>
-                        <input
-                            type="text"
-                            id="ingredient_name_<?= $index; ?>"
-                            name="ingredient_name[]"
-                            placeholder="e.g. flour"
-                            value="<?= e((string) $ingredient_name); ?>"
-                        >
-                    </div>
-                </fieldset>
-            <?php endforeach; ?>
+            </div>
+
+            <h2 id="ingredients">Ingredients</h2>
+            <div class="form-field">
+                <label for="ingredients_image">Ingredients Image</label>
+                <input
+                    type="file"
+                    id="ingredients_image"
+                    name="ingredients_image"
+                    accept=".jpeg, .jpg, .png, .webp"
+                >
+            </div>
+            <div id="ingredient-fields">
+                <?php foreach ($ingredient_names as $index => $ingredient_name) : ?>
+                    <fieldset class="ingredient-fieldset">
+                        <legend>Ingredient <?= $index + 1; ?></legend>
+                        <div class="form-field">
+                            <label for="ingredient_quantity_<?= $index; ?>">
+                                Quantity
+                            </label>
+                            <input
+                                type="text"
+                                id="ingredient_quantity_<?= $index; ?>"
+                                name="ingredient_quantity[]"
+                                placeholder="e.g. 1 1/2"
+                                value="<?= e((string) ($ingredient_quantities[$index] ?? '')); ?>"
+                            >
+                        </div>
+                        <div class="form-field">
+                            <label for="ingredient_unit_<?= $index; ?>">
+                                Unit
+                            </label>
+                            <input
+                                type="text"
+                                id="ingredient_unit_<?= $index; ?>"
+                                name="ingredient_unit[]"
+                                placeholder="e.g. cups"
+                                value="<?= e((string) ($ingredient_units[$index] ?? '')); ?>"
+                            >
+                        </div>
+                        <div class="form-field">
+                            <label for="ingredient_name_<?= $index; ?>">
+                                Ingredient
+                            </label>
+                            <input
+                                type="text"
+                                id="ingredient_name_<?= $index; ?>"
+                                name="ingredient_name[]"
+                                placeholder="e.g. flour"
+                                value="<?= e((string) $ingredient_name); ?>"
+                            >
+                        </div>
+                    </fieldset>
+                <?php endforeach; ?>
+            </div>
 
             <button 
-                type="submit" 
-                name="add_ingredient" 
-                formaction="add-recipe.php#ingredients-new" 
-                formnovalidate
+                type="button" 
+                id="add-ingredient" 
             >
                 Add Ingredient
             </button>
 
             <h2 id="steps">Steps</h2>
-
-            <?php foreach ($step_instructions_list as $index => $step_instructions) : ?>
-                <!--
-                AI: ChatGPT assisted with keeping the page positioned at the newly
-                added steps after the PHP form reloads.
-                -->
-                <fieldset 
-                    class="step-fieldset"
-                    <?= $index === array_key_last($step_instructions_list) ? 'id="steps-new"' : ''; ?>
-                >
-                    <legend>Step <?= $index + 1; ?></legend>
-                    <div class="form-field">
-                        <label for="step_title_<?= $index; ?>">
-                            Title
-                        </label>
-                        <input
-                            type="text"
-                            id="step_title_<?= $index; ?>"
-                            name="step_title[]"
-                            placeholder="e.g. Prepare the ingredients"
-                            value="<?= e((string) ($step_titles[$index] ?? '')); ?>"
-                        >
-                    </div>
-                    <div class="form-field">
-                        <label for="step_instructions_<?= $index; ?>">
-                            Instructions
-                        </label>
-                        <textarea
-                            id="step_instructions_<?= $index; ?>"
-                            name="step_instructions[]"
-                            placeholder="Describe what to do in this step."
-                        ><?= e((string) $step_instructions); ?></textarea>
-                    </div>
-                </fieldset>
-            <?php endforeach; ?>
+            <div id="step-fields">
+                <?php foreach ($step_instructions_list as $index => $step_instructions) : ?>
+                    <fieldset class="step-fieldset">
+                        <legend>Step <?= $index + 1; ?></legend>
+                        <div class="form-field">
+                            <label for="step_title_<?= $index; ?>">
+                                Title
+                            </label>
+                            <input
+                                type="text"
+                                id="step_title_<?= $index; ?>"
+                                name="step_title[]"
+                                placeholder="e.g. Prepare the ingredients"
+                                value="<?= e((string) ($step_titles[$index] ?? '')); ?>"
+                            >
+                        </div>
+                        <div class="form-field">
+                            <label for="step_instructions_<?= $index; ?>">
+                                Instructions
+                            </label>
+                            <textarea
+                                id="step_instructions_<?= $index; ?>"
+                                name="step_instructions[]"
+                                placeholder="Describe what to do in this step."
+                            ><?= e((string) $step_instructions); ?></textarea>
+                        </div>
+                        <div class="form-field">
+                            <label for="step_image_<?= $index; ?>">Step Image</label>
+                            <input 
+                                type="file"
+                                id="step_image_<?= $index; ?>"
+                                name="step_image[]"
+                                accept=".jpeg, .jpg, .png, .webp"
+                            >
+                        </div>
+                    </fieldset>
+                <?php endforeach; ?>
+            </div>
 
             <button 
-                type="submit" 
-                name="add_step" 
-                formaction="add-recipe.php#steps-new"
-                formnovalidate
+                type="button" 
+                id="add-step" 
             >
                 Add Step
             </button>
@@ -320,5 +382,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </button>
         </form>
     </main>
+    <script src="../src/recipe-form.js"></script>
 </body>
 </html>

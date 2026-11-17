@@ -36,5 +36,5 @@ The user-facing feature for the Beta milestone is recipe search and category fil
 - ChatGPT — assisted with reorganizing the provided recipe data to match the database schema and preparing the data for import into phpMyAdmin.
 - ChatGPT — assisted with troubleshooting SQL and phpMyAdmin import errors, including handling NULL values and foreign key constraints.
 - ChatGPT — generated the initial CSS scaffold and responsive styling for the public recipe pages, including the recipe card and recipe detail layouts
-- ChatGPT — assisted with keeping the page positioned at the newly added ingredient or step after the PHP form reloads.
 - ChatGPT — assisted with reorganizing CSS selectors from least specific to most specific and alphabetizing properties within each selector.
+- ChatGPT — assisted with keeping the page positioned at the newly added ingredient or step after the PHP form reloads.
