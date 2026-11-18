@@ -1,3 +1,7 @@
 inc/config.php
+images/*
+!images/case-study/
+!images/case-study/**
+!images/uploads/
+!images/uploads/**
 **.DS_Store
-images/

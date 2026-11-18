@@ -1,5 +1,5 @@
 ## Project Description
-This project is a server-side web app for an online cookbook. By the final version, users will be able to browse and search for recipes, view recipe details including ingredients and instructions, and manage their own recipe collection. The project uses PHP and MySQL to store and retrieve recipe data.
+This project is a server-side web app for an online cookbook. Users can browse and search for recipes, filter recipes by category, and view recipe details including ingredients, step-by-step instructions, and images. An authenticated admin area allows recipes and their content to be added, edited, and deleted. The project uses PHP, MySQL, and JavaScript to store, retrieve, and manage recipe data.
 
 ## Local Setup
 ### Prerequisites
@@ -30,6 +30,9 @@ You can also create an account through the registration page.
 
 ## Search and Filter
 The user-facing feature for the Beta milestone is recipe search and category filtering. On the main recipe library page, users can search for a recipe by name, filter recipes by category, or use both options together.
+
+## Case Study
+Read the [Cookbook Case Study](case-study.php) for an overview of the design and development process.
 
 ## AI Use
 - ChatGPT — used for guidance with setting up MAMP

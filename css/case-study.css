@@ -1,0 +1,110 @@
+/*
+ * AI: ChatGPT assisted with organizing and styling the case study page,
+ * including responsive image sizing, content spacing, and code formatting.
+ */
+
+.case-study {
+    margin: 0 auto;
+    max-width: 1100px;
+    padding: 3rem 2rem 6rem;
+}
+
+.case-study-hero {
+    margin-bottom: 5rem;
+    text-align: center;
+}
+
+.case-study-hero h1 {
+    margin-bottom: 0.75rem;
+}
+
+.case-study-hero p {
+    color: #6f6863;
+    font-size: 1.125rem;
+    margin: 0 auto 2rem;
+    max-width: 650px;
+}
+
+.case-study-hero img {
+    border-radius: 8px;
+    display: block;
+    height: auto;
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+.case-study-section {
+    margin: 0 auto 5rem;
+    max-width: 850px;
+}
+
+.case-study-section h2 {
+    margin-bottom: 1.5rem;
+}
+
+.case-study-section h3 {
+    margin-top: 2rem;
+}
+
+.case-study-section p,
+.case-study-section li {
+    line-height: 1.7;
+}
+
+.case-study-section figure {
+    margin: 2.5rem 0;
+}
+
+.process-screenshot {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 650px;
+}
+
+.case-study-section figure img {
+    border: 1px solid #ddd5cc;
+    border-radius: 8px;
+    display: block;
+    height: auto;
+    max-width: 100%;
+}
+
+.case-study-section figcaption,
+.code-caption {
+    color: #6f6863;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-top: 0.75rem;
+}
+
+.case-study-section pre {
+    background: #ffffff;
+    border: 1px solid #ddd5cc;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    padding: 1.5rem;
+}
+
+.case-study-section code {
+    font-family: monospace;
+}
+
+.case-study-section pre code {
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+@media (max-width: 700px) {
+    .case-study {
+        padding: 2rem 1rem 4rem;
+    }
+
+    .case-study-hero {
+        margin-bottom: 3rem;
+    }
+
+    .case-study-section {
+        margin-bottom: 3.5rem;
+    }
+}
