@@ -1,4 +1,5 @@
 inc/config.php
+inc/config-production.php
 images/*
 !images/case-study/
 !images/case-study/**

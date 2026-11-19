@@ -1,6 +1,47 @@
 <?php
 declare(strict_types=1);
 
+// Fallback for PHP versions older than 8.2.
+// mysqli_execute_query() was added in PHP 8.2.
+if (!function_exists('mysqli_execute_query')) {
+    function mysqli_execute_query(
+        mysqli $mysql,
+        string $query,
+        ?array $params = null
+    ) {
+        static $last_statement = null;
+
+        $statement = mysqli_prepare($mysql, $query);
+        $last_statement = $statement;
+
+        if (!empty($params)) {
+            $types = '';
+
+            foreach ($params as $value) {
+                if (is_int($value)) {
+                    $types .= 'i';
+                } elseif (is_float($value)) {
+                    $types .= 'd';
+                } else {
+                    $types .= 's';
+                }
+            }
+
+            $values = array_values($params);
+            mysqli_stmt_bind_param($statement, $types, ...$values);
+        }
+
+        mysqli_stmt_execute($statement);
+
+        // INSERT, UPDATE, and DELETE do not return a result set.
+        if (mysqli_stmt_result_metadata($statement) === false) {
+            return true;
+        }
+
+        return mysqli_stmt_get_result($statement);
+    }
+}
+
 function get_value(string $key): string {
     return trim($_GET[$key] ?? '');
 }
